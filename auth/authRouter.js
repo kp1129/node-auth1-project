@@ -1,5 +1,3 @@
-// build the router that handles requests to /api/register
-//      Creates a user using the information sent inside the body of the request. Hash the password before saving the user to the database.
 
 // and to /api/login
 //      Use the credentials sent inside the body to authenticate the user. On successful login, create a new session for the user and send back a 'Logged in' message and a cookie that contains the user id. If login fails, respond with the correct status code and the message: 'You shall not pass!'
@@ -27,5 +25,21 @@ router.post("/register", (req, res) => {
 
 
 // login
+router.post("/login", (req, res) => {
+    let user = req.body;
+    // search for user by username
+    // if found, confirm that passwords match
+    Users.findByUsername(user.username)
+    .then(response => {
+        if(response && bcrypt.compareSync(user.password, response.password)){
+
+            // req.session.loggedIn = true;
+            res.status(200).json({ message: "Logged in" })
+        } else {
+            res.status(401).json({ message: "You shall not pass!"})
+        }
+    })
+    .catch(error => res.status(500).json({ errorMessage: error.message }))
+})
 
 module.exports = router;
