@@ -9,10 +9,8 @@ module.exports = {
     add
 }
 
-// BEFORE PULL REQUEST, 
-// CHANGE THIS NOT TO RETURN PASSWORDS LOL
 function findAll() {
-    return db('users')
+    return db('users').select('id', 'username')
 }
 
 function findById(id) {
