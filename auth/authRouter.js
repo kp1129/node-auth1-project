@@ -37,4 +37,20 @@ router.post("/login", (req, res) => {
     .catch(error => res.status(500).json({ errorMessage: error.message }))
 })
 
+
+// logout
+router.get("/logout", (req, res) => {
+    if(req.session) {
+        req.session.destroy(err => {
+            if(err) {
+                res.status(500).json({ errorMessage: 'you can checkout any time you like but you can never leave' })
+            } else {
+                res.status(204).end(); // "i got nothing to send you, but everything is peachy"
+            }
+        })
+    } else {
+        res.status(204).end();
+    }    
+})
+
 module.exports = router;
